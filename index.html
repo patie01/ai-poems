@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Poem Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #poem {
+            margin-top: 20px;
+            font-size: 1.2em;
+            white-space: pre-line;
+            color: #555;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>AI Poem Generator</h1>
+        <p>Click the button to generate a poem ✨</p>
+
+        <button onclick="generatePoem()">Generate AI Poem</button>
+
+        <div id="poem"></div>
+    </div>
+
+    <script>
+        const poems = [
+            "In quiet winds the stars align,\nSoft whispers drift through endless time,\nThe moon hums low, a silver rhyme,\nThe world exhales and feels divine.",
+
+            "Beneath the sky of violet dreams,\nThe river speaks in ancient streams,\nEach wave a memory it redeems,\nA poem stitched with moonlit seams.",
+
+            "A spark of thought becomes the sun,\nA thousand stories start as one,\nThe mind unfolds, the heart is spun,\nA universe that’s just begun."
+        ];
+
+        function generatePoem() {
+            const random = Math.floor(Math.random() * poems.length);
+            document.getElementById("poem").innerText = poems[random];
+        }
+    </script>
+
+</body>
+</html>
