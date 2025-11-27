@@ -1,0 +1,66 @@
+/* Background + Page Style */
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(135deg, #dfe9f3, #ffffff);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Main Container */
+.container {
+    background: white;
+    margin: 50px auto;
+    padding: 30px;
+    width: 85%;
+    max-width: 600px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* Titles */
+h1 {
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Button */
+button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+button:hover {
+    background: #45a049;
+    transform: scale(1.05);
+}
+
+/* Poem Display */
+#poem {
+    margin-top: 25px;
+    font-size: 1.2em;
+    white-space: pre-line;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Footer Credits */
+footer {
+    margin-top: 40px;
+    padding: 15px;
+    font-size: 0.9em;
+    color: #444;
+    background: #f3f3f3;
+    border-top: 1px solid #ddd;
+}
