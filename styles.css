@@ -64,3 +64,66 @@ footer {
     background: #f3f3f3;
     border-top: 1px solid #ddd;
 }
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.input-row input {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+}
+
+.input-row button {
+  padding: 12px 20px;
+  border: none;
+  background: #38bdf8;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.input-row button:hover {
+  background: #0ea5e9;
+}
+#poemForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#topicInput {
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  width: 250px;
+  height: 48px;        /* 👈 Makes input same height as button */
+  box-sizing: border-box;
+}
+
+#generateBtn {
+  padding: 12px;
+  font-size: 16px;
+  background: purple;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  height: 48px;        /* 👈 Makes button same height as input */
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#generateBtn:hover {
+  background: #5a0080;
+}

@@ -53,9 +53,17 @@
 
     <div class="container">
         <h1>AI Poem Generator</h1>
-        <p>Click the button to generate a poem ✨</p>
+        <div class="input-row">
+  <input 
+    type="text" 
+    id="promptInput" 
+    placeholder="Write a topic" 
+  />
 
-        <button onclick="generatePoem()">Generate AI Poem</button>
+  <button id="generateBtn">Submit</button>
+</div>
+
+<div id="resultBox" class="result-box"></div>
 
         <div id="poem"></div>
     </div>
@@ -83,6 +91,7 @@
             document.getElementById("poem").innerText = poems[random];
         }
     </script>
+<script src="script.js"></script>
 
 </body>
 </html>
