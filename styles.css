@@ -1,129 +1,349 @@
-/* Background + Page Style */
-body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: linear-gradient(135deg, #dfe9f3, #ffffff);
+/* Global Styles */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     text-align: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated Stars Background */
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.stars::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 
+        100px 100px white, 200px 50px white, 300px 200px white,
+        400px 100px white, 500px 300px white, 600px 150px white,
+        700px 250px white, 800px 100px white, 900px 300px white,
+        1000px 200px white, 1100px 100px white, 1200px 250px white;
+    animation: twinkle 3s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
 }
 
 /* Main Container */
 .container {
-    background: white;
-    margin: 50px auto;
-    padding: 30px;
-    width: 85%;
-    max-width: 600px;
-    border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    margin: 40px auto;
+    padding: 40px;
+    width: 90%;
+    max-width: 700px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.6s ease-out;
 }
 
-/* Titles */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+header {
+    margin-bottom: 30px;
+}
+
 h1 {
-    color: #222;
+    color: #764ba2;
+    font-size: 2.5em;
     margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .subtitle {
-    color: #555;
+    color: #666;
+    font-size: 1em;
     margin-bottom: 20px;
 }
 
-/* Button */
-button {
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 12px 22px;
-    font-size: 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.25s;
+/* Form Section */
+.form-section {
+    margin-bottom: 30px;
 }
 
-button:hover {
-    background: #45a049;
-    transform: scale(1.05);
-}
-
-/* Poem Display */
-#poem {
-    margin-top: 25px;
-    font-size: 1.2em;
-    white-space: pre-line;
-    color: #333;
-    line-height: 1.6;
-}
-
-/* Footer Credits */
-footer {
-    margin-top: 40px;
-    padding: 15px;
-    font-size: 0.9em;
-    color: #444;
-    background: #f3f3f3;
-    border-top: 1px solid #ddd;
-}
-
-.input-row {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.input-row input {
-  flex: 1;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
-}
-
-.input-row button {
-  padding: 12px 20px;
-  border: none;
-  background: #38bdf8;
-  color: black;
-  font-weight: bold;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.input-row button:hover {
-  background: #0ea5e9;
-}
 #poemForm {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
 #topicInput {
-  padding: 12px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  width: 250px;
-  height: 48px;        /* 👈 Makes input same height as button */
-  box-sizing: border-box;
+    padding: 14px 18px;
+    font-size: 16px;
+    border: 2px solid #667eea;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 350px;
+    transition: all 0.3s ease;
+    background: #f8f9ff;
+}
+
+#topicInput:focus {
+    outline: none;
+    border-color: #764ba2;
+    box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+    background: white;
+}
+
+#topicInput::placeholder {
+    color: #999;
 }
 
 #generateBtn {
-  padding: 12px;
-  font-size: 16px;
-  background: purple;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  height: 48px;        /* 👈 Makes button same height as input */
-  cursor: pointer;
-  transition: 0.3s;
+    padding: 14px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
 #generateBtn:hover {
-  background: #5a0080;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+#generateBtn:active {
+    transform: translateY(0);
+}
+
+#generateBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.char-count {
+    font-size: 0.85em;
+    color: #999;
+    margin-top: 5px;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.loading-spinner.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f0f0f0;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+    color: #667eea;
+    font-size: 0.95em;
+}
+
+/* Error Message */
+.error-message {
+    background: #fee;
+    border: 2px solid #f00;
+    color: #c00;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    font-weight: 500;
+}
+
+.error-message.hidden {
+    display: none;
+}
+
+/* Poem Display */
+.poem-display {
+    background: #f8f9ff;
+    border-left: 4px solid #667eea;
+    padding: 25px;
+    border-radius: 12px;
+    margin: 25px 0;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.poem-display.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.poem-content {
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #333;
+    white-space: pre-wrap;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.copy-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.copy-btn:hover {
+    background: #764ba2;
+    transform: scale(1.05);
+}
+
+/* Suggestions */
+.suggestions {
+    margin-top: 30px;
+}
+
+.suggestions p {
+    color: #666;
+    font-size: 0.95em;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.tag-list {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tag {
+    padding: 8px 16px;
+    background: #f0f0f0;
+    color: #333;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: all 0.3s ease;
+}
+
+.tag:hover {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+    transform: translateY(-2px);
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+    padding: 20px;
+    color: white;
+    font-size: 0.9em;
+    z-index: 1;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+}
+
+footer a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    .container {
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    #poemForm {
+        flex-direction: column;
+    }
+
+    #topicInput {
+        max-width: 100%;
+    }
+
+    #generateBtn {
+        width: 100%;
+    }
+
+    .tag-list {
+        gap: 6px;
+    }
+
+    .tag {
+        padding: 6px 12px;
+        font-size: 0.85em;
+    }
 }

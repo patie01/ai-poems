@@ -3,95 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Poem Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f0f0;
-            text-align: center;
-            padding: 40px;
-        }
-
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
-            margin: auto;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        #poem {
-            margin-top: 20px;
-            font-size: 1.2em;
-            white-space: pre-line;
-            color: #555;
-        }
-
-        button {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            background: #45a049;
-        }
-    </style>
+    <title>✨ AI Poem Generator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+    <div class="stars"></div>
+    
     <div class="container">
-        <h1>AI Poem Generator</h1>
-        <div class="input-row">
-  <input 
-    type="text" 
-    id="promptInput" 
-    placeholder="Write a topic" 
-  />
+        <header>
+            <h1>✨ AI Poem Generator</h1>
+            <p class="subtitle">Discover creative poetry powered by artificial intelligence</p>
+        </header>
 
-  <button id="generateBtn">Submit</button>
-</div>
+        <div class="form-section">
+            <form id="poemForm">
+                <input 
+                    type="text" 
+                    id="topicInput" 
+                    placeholder="Enter a topic (e.g., nature, love, dreams)" 
+                    autocomplete="off"
+                    required
+                />
+                <button id="generateBtn" type="submit">Generate Poem</button>
+            </form>
+            <div id="charCount" class="char-count"></div>
+        </div>
 
-<div id="resultBox" class="result-box"></div>
+        <div id="loadingSpinner" class="loading-spinner hidden">
+            <div class="spinner"></div>
+            <p>Creating your poem...</p>
+        </div>
 
-        <div id="poem"></div>
+        <div id="errorMessage" class="error-message hidden"></div>
+
+        <div id="poemDisplay" class="poem-display hidden">
+            <div id="poemContent" class="poem-content"></div>
+            <button id="copyBtn" class="copy-btn">📋 Copy Poem</button>
+        </div>
+
+        <div class="suggestions">
+            <p>Try these topics:</p>
+            <div class="tag-list">
+                <button class="tag" data-topic="nature">🍃 Nature</button>
+                <button class="tag" data-topic="love">💕 Love</button>
+                <button class="tag" data-topic="dreams">🌙 Dreams</button>
+                <button class="tag" data-topic="adventure">🗺️ Adventure</button>
+                <button class="tag" data-topic="friendship">👥 Friendship</button>
+            </div>
+        </div>
     </div>
 
     <footer>
-        This AI project was coded by 
-        <a href="https://github.com/patie01/" target="_blank">Patience Masona</a>
-        and is 
-        <a href="https://github.com/patie01/ai-poems" target="_blank">open-sourced on Github</a>
-        and is 
-        <a href="https://taupe-halva-11e054.netlify.app/" target="_blank">hosted on Netlify</a>
-
+        <p>Created by <a href="https://github.com/patie01/" target="_blank">Patience Masona</a> | 
+        <a href="https://github.com/patie01/ai-poems" target="_blank">GitHub</a> | 
+        <a href="https://taupe-halva-11e054.netlify.app/" target="_blank">Live Demo</a></p>
     </footer>
-    <script>
-        const poems = [
-            "In quiet winds the stars align,\nSoft whispers drift through endless time,\nThe moon hums low, a silver rhyme,\nThe world exhales and feels divine.",
 
-            "Beneath the sky of violet dreams,\nThe river speaks in ancient streams,\nEach wave a memory it redeems,\nA poem stitched with moonlit seams.",
-
-            "A spark of thought becomes the sun,\nA thousand stories start as one,\nThe mind unfolds, the heart is spun,\nA universe that’s just begun."
-        ];
-
-        function generatePoem() {
-            const random = Math.floor(Math.random() * poems.length);
-            document.getElementById("poem").innerText = poems[random];
-        }
-    </script>
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
