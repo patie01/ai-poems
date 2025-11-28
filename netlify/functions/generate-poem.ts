@@ -1,8 +1,10 @@
 import OpenAI from "openai";
 
-export default async (req: any, context: any) => {
+const handler = async (event: any) => {
+  console.log("Function called with method:", event.httpMethod);
+  
   // Handle CORS preflight
-  if (req.method === "OPTIONS") {
+  if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
       headers: {
@@ -13,33 +15,41 @@ export default async (req: any, context: any) => {
     };
   }
 
-  if (req.method !== "POST") {
+  if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error: "Method not allowed" })
     };
   }
 
   try {
-    const { topic } = JSON.parse(req.body);
+    const { topic } = JSON.parse(event.body || "{}");
+    console.log("Topic received:", topic);
 
     if (!topic) {
       return {
         statusCode: 400,
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ error: "Topic is required." })
       };
     }
 
     const apiKey = process.env.OPENAI_API_KEY;
+    console.log("API Key present:", !!apiKey);
+    
     if (!apiKey) {
-      throw new Error("OPENAI_API_KEY environment variable not set");
+      console.error("OPENAI_API_KEY not set");
+      return {
+        statusCode: 500,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "API key not configured" })
+      };
     }
 
-    const client = new OpenAI({
-      apiKey: apiKey
-    });
+    const openai = new OpenAI({ apiKey });
 
-    const response = await client.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         { role: "system", content: "You are a creative poet." },
@@ -47,7 +57,11 @@ export default async (req: any, context: any) => {
       ]
     });
 
-    const poem = response.choices[0].message.content.trim();
+    const poem = response.choices[0]?.message?.content?.trim();
+    
+    if (!poem) {
+      throw new Error("No poem content in response");
+    }
 
     return {
       statusCode: 200,
@@ -59,14 +73,16 @@ export default async (req: any, context: any) => {
     };
 
   } catch (error: any) {
-    console.error("AI error:", error);
+    console.error("Error:", error?.message || error);
     return {
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*"
       },
-      body: JSON.stringify({ error: error.message || "Failed to generate poem." })
+      body: JSON.stringify({ error: error?.message || "Failed to generate poem" })
     };
   }
 };
+
+export { handler };
