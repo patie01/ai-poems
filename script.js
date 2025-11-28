@@ -10,8 +10,10 @@ const copyBtn = document.getElementById("copyBtn");
 const charCount = document.getElementById("charCount");
 const tagButtons = document.querySelectorAll(".tag");
 
-// API Endpoint
-const API_URL = "http://localhost:3000/generate-poem";
+// API Endpoint - works for both local and Netlify
+const API_URL = window.location.hostname === "localhost" 
+  ? "http://localhost:3000/generate-poem"
+  : "/.netlify/functions/generate-poem";
 
 // Update character count
 topicInput.addEventListener("input", () => {
