@@ -1,25 +1,42 @@
 import OpenAI from "openai";
 
-export default async (req, context) => {
+export default async (req: any, context: any) => {
+  // Handle CORS preflight
+  if (req.method === "OPTIONS") {
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+      }
+    };
+  }
+
   if (req.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), {
-      status: 405,
-      headers: { "Content-Type": "application/json" }
-    });
+    return {
+      statusCode: 405,
+      body: JSON.stringify({ error: "Method not allowed" })
+    };
   }
 
   try {
-    const { topic } = await req.json();
+    const { topic } = JSON.parse(req.body);
 
     if (!topic) {
-      return new Response(JSON.stringify({ error: "Topic is required." }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" }
-      });
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Topic is required." })
+      };
+    }
+
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error("OPENAI_API_KEY environment variable not set");
     }
 
     const client = new OpenAI({
-      apiKey: Deno.env.get("OPENAI_API_KEY")
+      apiKey: apiKey
     });
 
     const response = await client.chat.completions.create({
@@ -32,19 +49,24 @@ export default async (req, context) => {
 
     const poem = response.choices[0].message.content.trim();
 
-    return new Response(JSON.stringify({ poem }), {
-      status: 200,
+    return {
+      statusCode: 200,
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*"
-      }
-    });
+      },
+      body: JSON.stringify({ poem })
+    };
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("AI error:", error);
-    return new Response(JSON.stringify({ error: "Failed to generate poem." }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" }
-    });
+    return {
+      statusCode: 500,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: JSON.stringify({ error: error.message || "Failed to generate poem." })
+    };
   }
 };
