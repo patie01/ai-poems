@@ -4,19 +4,18 @@ import cors from "cors";
 import OpenAI from "openai";
 import dotenv from "dotenv";
 
-dotenv.config(); // loads your API key from .env
+dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public")); // optional, if you have frontend in public/
 
-// Initialize OpenAI client
+// OpenAI client
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-// --- API route to generate poem ---
+// Generate poem route
 app.post("/generate-poem", async (req, res) => {
   try {
     const { topic } = req.body;
@@ -28,8 +27,8 @@ app.post("/generate-poem", async (req, res) => {
     const response = await client.chat.completions.create({
       model: "gpt-4.1-mini",
       messages: [
-        { role: "system", content: "You are a creative poet." },
-        { role: "user", content: `Write a short, beautiful poem about: ${topic}` }
+        { role: "system", content: "You are a brilliant poet." },
+        { role: "user", content: `Write a short 4-line poem about: ${topic}` }
       ]
     });
 
@@ -42,9 +41,7 @@ app.post("/generate-poem", async (req, res) => {
   }
 });
 
-// Start server
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// Port fix for Render
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
