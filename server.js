@@ -12,11 +12,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve frontend static files (index.html, script.js, styles.css)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname)));
-
 const SHECODES_API = 'https://api.shecodes.io/ai/v1/generate';
 
 app.post('/generate', async (req, res) => {
@@ -43,6 +38,11 @@ app.post('/generate', async (req, res) => {
     res.status(502).json({ error: 'Error generating poem' });
   }
 });
+
+// Serve frontend static files AFTER API routes (index.html, script.js, styles.css)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname)));
 
 const PORT = process.env.PORT || 3300;
 app.listen(PORT, () => console.log(`Poem generator server listening on ${PORT}`));
