@@ -1,8 +1,8 @@
-// server.js
-import express from "express";
-import cors from "cors";
-import OpenAI from "openai";
-import dotenv from "dotenv";
+// server.js - proxy for AI requests
+import express from 'express';
+import cors from 'cors';
+import axios from 'axios';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -10,38 +10,33 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// OpenAI client
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+const SHECODES_API = 'https://api.shecodes.io/ai/v1/generate';
 
-// Generate poem route
-app.post("/generate-poem", async (req, res) => {
+app.post('/generate', async (req, res) => {
+  const { topic = '', prompt, context } = req.body || {};
+  const apiKey = process.env.SHECODES_API_KEY;
+
+  if (!apiKey) {
+    return res.status(500).json({ error: 'SHECODES_API_KEY not configured on server' });
+  }
+
+  const usedPrompt = prompt || `Generate a Romantic poem about ${topic}.`;
+  const usedContext = context || 'You are a romantic poem expert. Generate a short 4-line poem in basic HTML and separate each line with a <br />. Do not include a title or signature.';
+
   try {
-    const { topic } = req.body;
-
-    if (!topic) {
-      return res.status(400).json({ error: "Topic is required." });
-    }
-
-    const response = await client.chat.completions.create({
-      model: "gpt-4.1-mini",
-      messages: [
-        { role: "system", content: "You are a brilliant poet." },
-        { role: "user", content: `Write a short 4-line poem about: ${topic}` }
-      ]
+    const response = await axios.get(SHECODES_API, {
+      params: { prompt: usedPrompt, context: usedContext, key: apiKey },
+      timeout: 15000,
     });
 
-    const poem = response.choices[0].message.content.trim();
+    const poem = (response.data && response.data.answer) ? response.data.answer : JSON.stringify(response.data);
     res.json({ poem });
-
-  } catch (error) {
-    console.error("AI error:", error);
-    res.status(500).json({ error: "Failed to generate poem." });
+  } catch (err) {
+    console.error('Error calling SheCodes API:', err?.response?.data || err.message);
+    res.status(502).json({ error: 'Error generating poem' });
   }
 });
 
-// Port fix for Render
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const PORT = process.env.PORT || 3300;
+app.listen(PORT, () => console.log(`Poem generator server listening on ${PORT}`));
 
