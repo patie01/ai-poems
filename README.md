@@ -33,6 +33,23 @@ For local testing:
 - Prefer moving API calls to a backend endpoint that reads the key from environment
   variables and proxies requests from the frontend.
 
+## Deploying to Netlify (full site + serverless function)
+
+This project can be deployed to Netlify using a Netlify Function for the AI proxy. The repository already contains a function at `netlify/functions/generate.js` which forwards requests to the SheCodes API using the `SHECODES_API_KEY` environment variable.
+
+Steps:
+
+1. Push your repository to GitHub (already done).
+2. On Netlify, click "New site from Git" and choose your repo `patie01/ai-poems`.
+3. In the Netlify site settings, go to "Functions" and ensure functions are enabled (Netlify enables them by default).
+4. Add an environment variable in Netlify: `SHECODES_API_KEY` with your SheCodes key (Settings → Site settings → Build & deploy → Environment → Environment variables).
+5. Deploy the site. Netlify will build and deploy; once live, your frontend will call the serverless function at `/.netlify/functions/generate`.
+
+Notes:
+- If you deploy to Netlify, revoke any previously exposed API key and create a new one.
+- Netlify functions have execution time and payload limits — the function uses a 15s timeout and should be fine for simple requests.
+
+
 ## Author
 Coded by [Patience Masona](https://github.com/patie01/)
 
